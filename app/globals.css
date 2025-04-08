@@ -1,0 +1,753 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-color: #4ecdc4;
+  --secondary-color: #ff6b6b;
+  --dark-color: #556270;
+  --accent-color: #c06c84;
+  --light-color: #f8f9fc;
+  --particle-color: #ffffff;
+  --mouse-x: 0;
+  --mouse-y: 0;
+}
+
+/* 动画关键帧 */
+@keyframes backgroundGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes wave {
+  0%, 100% { height: 5px; }
+  50% { height: 20px; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes scaleOut {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.95); opacity: 0; }
+}
+
+/* 基础样式 */
+@layer base {
+  body, html {
+    @apply h-full m-0 overflow-hidden text-white font-['Nunito',_sans-serif];
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #556270, #c06c84);
+    background-size: 400% 400%;
+    animation: backgroundGradient 15s ease infinite;
+  }
+}
+
+/* 组件样式 */
+@layer components {
+  /* 布局组件 */
+  .content-container {
+    @apply relative z-[3] h-screen flex flex-col justify-center items-center p-5 backdrop-blur-md;
+  }
+  
+  .main-title {
+    @apply text-5xl font-bold mb-8 text-center text-white/90 shadow-white/50 animate-[breathe_4s_infinite_ease-in-out];
+  }
+  
+  .subtitle {
+    @apply text-xl text-center mb-8 text-white/80 max-w-[600px] shadow-black/20;
+  }
+  
+  /* 聊天相关组件 */
+  .chat-container {
+    @apply w-[1000px] max-w-[90%] h-[60vh] mt-8 bg-white/15 rounded-[30px] p-6 
+           shadow-lg backdrop-blur-md border border-white/20 flex flex-col;
+  }
+  
+  .chat-messages {
+    @apply flex-1 overflow-y-auto mb-4 p-2.5 flex flex-col gap-2.5;
+  }
+  
+  .message {
+    @apply mb-2.5 p-[10px_15px] rounded-[15px] max-w-[80%] shadow-sm;
+  }
+  
+  .user-message {
+    @apply ml-auto rounded-br-[5px];
+    background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+  }
+  
+  .ai-message {
+    @apply bg-white/20 mr-auto rounded-bl-[5px] backdrop-blur-md;
+  }
+  
+  .clickable-message {
+    @apply cursor-pointer relative transition-all duration-200;
+  }
+  
+  .clickable-message::after {
+    content: '👆';
+    @apply absolute top-[5px] right-[5px] text-xs opacity-70;
+  }
+  
+  .clickable-message:hover {
+    @apply bg-white/25 -translate-y-0.5 shadow-md;
+  }
+  
+  /* 按钮样式 */
+  .login-btn {
+    @apply absolute top-5 right-[30px] bg-white/15 border border-white/30 text-white 
+           rounded-[20px] py-2 px-5 text-sm transition-all duration-300 backdrop-blur-md shadow-md;
+  }
+  
+  .login-btn:hover {
+    @apply bg-white/25 border-white/50 shadow-lg;
+  }
+  
+  .voice-recorder-btn {
+    @apply rounded-full w-10 h-10 flex justify-center items-center transition-all duration-300 
+           shadow-md cursor-pointer border-none;
+    background: linear-gradient(135deg, var(--accent-color), var(--dark-color));
+  }
+  
+  .voice-recorder-btn:hover {
+    @apply scale-105 shadow-lg;
+  }
+  
+  .voice-recorder-btn.recording {
+    @apply animate-[pulse_1.5s_infinite];
+    background: linear-gradient(135deg, #ff0000, var(--secondary-color));
+  }
+  
+  .send-btn {
+    @apply border-none rounded-full w-[50px] h-[50px] 
+           flex justify-center items-center transition-all 
+           duration-300 shadow-md p-0;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  }
+  
+  .send-btn:hover {
+    @apply scale-105 shadow-lg;
+  }
+  
+  /* 录音波形 */
+  .recording-wave {
+    @apply flex items-center justify-center gap-[3px] h-5;
+  }
+  
+  .recording-wave span {
+    @apply block w-[3px] h-full bg-white rounded-[3px] animate-[wave_1.2s_infinite_ease-in-out];
+  }
+  
+  .recording-wave span:nth-child(2) { animation-delay: 0.2s; }
+  .recording-wave span:nth-child(3) { animation-delay: 0.4s; }
+  .recording-wave span:nth-child(4) { animation-delay: 0.6s; }
+  .recording-wave span:nth-child(5) { animation-delay: 0.8s; }
+  
+  /* 浮动组件 */
+  .floating-component-overlay {
+    @apply fixed inset-0 bg-black/70 backdrop-blur-md flex justify-center items-center z-[1000] 
+           opacity-0 animate-[fadeIn_0.3s_forwards];
+  }
+  
+  .floating-component-overlay.closing {
+    @apply animate-[fadeOut_0.3s_forwards];
+  }
+  
+  .floating-component-container {
+    @apply w-4/5 max-w-[1200px] min-h-[70vh] max-h-[90vh] bg-white/15 rounded-[20px] 
+           shadow-xl border border-white/20 flex flex-col overflow-hidden transform scale-95 
+           opacity-0 animate-[scaleIn_0.3s_0.1s_forwards];
+  }
+  
+  .floating-component-container.closing {
+    @apply animate-[scaleOut_0.3s_forwards];
+  }
+  
+  .floating-component-header {
+    @apply flex justify-between items-center p-[15px_20px] bg-white/10 border-b border-white/10;
+  }
+  
+  .floating-component-title {
+    @apply text-2xl font-semibold text-white shadow-black/20;
+  }
+  
+  .floating-component-close {
+    @apply bg-white/10 border-none text-white w-9 h-9 rounded-full flex items-center 
+           justify-center cursor-pointer transition-all duration-200;
+  }
+  
+  .floating-component-close:hover {
+    @apply bg-white/20 rotate-90;
+  }
+  
+  .floating-component-content {
+    @apply flex-1 overflow-y-auto p-5 text-white;
+  }
+  
+  .floating-component-footer {
+    @apply flex justify-between items-center p-[15px_20px] bg-black/10 border-t border-white/10;
+  }
+  
+  .floating-component-tip {
+    @apply text-sm text-white/70;
+  }
+  
+  .floating-component-action-btn {
+    @apply border-none text-white py-2 px-5 rounded-[20px] cursor-pointer transition-all 
+           duration-200 font-semibold shadow-md;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  }
+  
+  .floating-component-action-btn:hover {
+    @apply -translate-y-0.5 shadow-lg;
+  }
+  
+  .floating-dialog-content {
+    @apply bg-white/15 rounded-[20px] shadow-xl border border-white/20 text-white;
+  }
+  
+  .floating-dialog-content .floating-component-header {
+    @apply mb-0;
+  }
+}
+
+/* 特定元素样式 */
+#particles-js {
+  @apply absolute w-full h-full z-[1];
+}
+
+#title-particles {
+  @apply absolute w-full h-[200px] top-[20%] z-[2];
+}
+
+/* 自定义滚动条 */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-white/5 rounded-[10px];
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-white/20 rounded-[10px];
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  @apply bg-white/30;
+}
+
+/* 聊天消息滚动条 */
+.chat-messages::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  @apply bg-white/5 rounded-[10px];
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  @apply bg-white/20 rounded-[10px] transition-all duration-300;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  @apply bg-white/40;
+}
+
+/* 文本区域滚动条 */
+textarea.chat-input::-webkit-scrollbar {
+  @apply w-1.5;
+}
+
+textarea.chat-input::-webkit-scrollbar-track {
+  @apply bg-transparent rounded-[10px];
+}
+
+textarea.chat-input::-webkit-scrollbar-thumb {
+  @apply bg-white/20 rounded-[10px];
+}
+
+textarea.chat-input::-webkit-scrollbar-thumb:hover {
+  @apply bg-white/30;
+}
+
+/* 全局覆盖样式 */
+:global(.chat-input) {
+  @apply bg-white/10 border border-white/20 text-white
+         rounded-[30px] py-[15px] px-[25px] text-lg
+         transition-all duration-300;
+}
+
+:global(.chat-input:focus) {
+  @apply bg-white/15 border-white/50 shadow-white/30 text-white;
+}
+
+:global(.chat-input::placeholder) {
+  @apply text-white/60;
+}
+
+/* 重要样式覆盖 - 必须放在最后 */
+.floating-dialog-content {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+:global(.chat-input) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  border-radius: 30px !important;
+  padding: 15px 25px !important;
+  font-size: 1.1rem !important;
+  transition: all 0.3s ease !important;
+}
+
+:global(.chat-input:focus) {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+}
+
+:global(.chat-input::placeholder) {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.send-btn {
+  border: none !important;
+  border-radius: 50% !important;
+  width: 50px !important;
+  height: 50px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  padding: 0 !important;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+}
+
+.send-btn:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* 自定义页面设计相关样式 */
+.custom-page-designer-dialog {
+  max-width: 90vw !important;
+  width: 90vw !important; 
+  height: 90vh !important;
+  max-height: 90vh !important;
+}
+
+.custom-page-designer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.design-area-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+}
+
+.design-area-container.aspect-video {
+  aspect-ratio: 16 / 9;
+  max-height: 60vh;
+}
+
+/* 内容容器 */
+.content-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 缩放内容 */
+.scaled-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  max-width: 100%;
+}
+
+.scaled-content-inner {
+  /* transform由JavaScript动态设置 */
+  transform-origin: center center;
+  transition: transform 0.2s ease;
+  background-color: white;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* 让内容尺寸由JavaScript控制 */
+  min-height: 100px; /* 确保内容有最小高度 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scaled-content-inner.transparent-bg {
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+/* 设计区域样式 */
+.design-area {
+  position: relative;
+  border: 2px dashed #e0e7ff;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background: white;
+  overflow: hidden;
+}
+
+/* 调整已放置内容的背景样式 */
+.design-area.has-content {
+  border-style: solid;
+  border-color: #c7d2fe;
+  background-color: transparent;
+  overflow-y: auto;
+}
+
+/* 设计区域内滚动条样式 */
+.design-area::-webkit-scrollbar {
+  width: 4px;
+}
+
+.design-area::-webkit-scrollbar-track {
+  background: rgba(224, 231, 255, 0.3);
+  border-radius: 10px;
+}
+
+.design-area::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 10px;
+}
+
+.design-area::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+.design-area.drag-over {
+  border-color: #818cf8;
+  background: rgba(224, 231, 255, 0.2);
+}
+
+.draggable-content {
+  cursor: grab;
+  transition: transform 0.2s ease;
+}
+
+.draggable-content:active {
+  cursor: grabbing;
+  transform: scale(0.98);
+}
+
+/* 缩放容器 */
+.content-thumbnail {
+  transform: scale(0.25);
+  transform-origin: top left;
+  width: 400%; /* 1/0.25 */
+  height: 300px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* 自定义页面设计按钮 - 输入框上方版本 */
+.custom-design-btn-input {
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
+  transition: all 0.3s ease;
+  margin-bottom: 0.75rem;
+  align-self: flex-end;
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.custom-design-btn-input:hover:not(:disabled) {
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  box-shadow: 0 3px 15px rgba(99, 102, 241, 0.4);
+  transform: translateY(-2px);
+}
+
+.custom-design-btn-input::before {
+  content: "✨";
+  font-size: 1rem;
+}
+
+/* 禁用状态样式 */
+.custom-design-btn-input.disabled-btn, 
+.custom-design-btn-input:disabled {
+  background: linear-gradient(to right, #9ca3af, #6b7280) !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
+}
+
+.custom-design-btn-input.disabled-btn::before, 
+.custom-design-btn-input:disabled::before {
+  opacity: 0.5;
+}
+
+/* 确保表单内部元素正确对齐 */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.input-btn-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+/* 操作按钮组 */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  padding: 0 0.75rem;
+  margin-left: auto;
+}
+
+/* 输入区域修改 */
+.chat-input {
+  padding-left: 1.25rem !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* 生成内容缩略图样式 */
+.content-thumbnail {
+  transform: scale(0.25);
+  transform-origin: top left;
+  width: 400%; /* 1/0.25 */
+  height: 300px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.draggable-content {
+  cursor: grab;
+  height: 75px; /* 300px * 0.25 */
+  overflow: hidden;
+  background: white;
+  border-radius: 12px;
+}
+
+.draggable-content:active {
+  cursor: grabbing;
+}
+
+/* 生成内容网格布局 */
+.generated-content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+/* 缩略图容器 */
+.thumbnail-container {
+  position: relative;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+.thumbnail-container:hover {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.thumbnail-container.dragging {
+  opacity: 0.5;
+}
+
+/* 拖拽内容样式 */
+.draggable-content {
+  cursor: grab;
+}
+
+.draggable-content:active {
+  cursor: grabbing;
+}
+
+/* 查看按钮样式 */
+.view-content-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+.view-content-btn:hover {
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+}
+
+.view-content-btn:active {
+  background: linear-gradient(to right, #4338ca, #6d28d9);
+}
+
+/* 全屏预览样式 */
+.full-page-preview {
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  padding: 2rem;
+  overflow: auto;
+}
+
+.full-page-preview .preview-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 2rem;
+}
+
+.full-page-preview .preview-zone {
+  flex: 1;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 删除按钮样式 */
+.design-area .delete-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.2s ease;
+  z-index: 10;
+  font-size: 1rem;
+  line-height: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.design-area:hover .delete-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.design-area .delete-btn:hover {
+  background: rgba(220, 38, 38, 0.95);
+  transform: scale(1.1);
+}
+
+/* 拖拽区域占位符样式 */
+.drop-placeholder {
+  width: 100%;
+  height: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: rgba(224, 231, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.design-area:hover .drop-placeholder {
+  background-color: rgba(224, 231, 255, 0.5);
+  transform: scale(1.05);
+}
+
+/* 自定义区域内的内容样式 */
+.ai-floating-component {
+  background-color: transparent;
+}
