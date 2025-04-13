@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "../ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export interface Ingredient {
   name: string;
@@ -175,10 +176,11 @@ export function Recipe(props: RecipeProps) {
     <Card className="w-[700px] overflow-hidden shadow-lg border-slate-200 dark:border-slate-700 rounded-xl recipe-component" data-content-type="recipe">
       {props.imageUrl ? (
         <div className="h-[250px] relative overflow-hidden">
-          <img 
+          <Image 
             src={props.imageUrl} 
-            alt={props.title} 
-            className="w-full h-full object-cover"
+            alt={props.title || "食谱图片"}
+            fill
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         </div>

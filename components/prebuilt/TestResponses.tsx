@@ -41,7 +41,7 @@ export function TestResponses() {
             </div>
             <div className="bg-purple-50 p-4 rounded-lg text-center">
               <div className="text-sm text-purple-500 mb-1">配速</div>
-              <div className="text-xl font-bold text-purple-700">7'00"/公里</div>
+              <div className="text-xl font-bold text-purple-700">7&apos;00&quot;/公里</div>
             </div>
           </div>
           

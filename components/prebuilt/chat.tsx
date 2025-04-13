@@ -168,7 +168,7 @@ export default function Chat() {
           ...prev,
           <div className="flex flex-col gap-1 w-full max-w-fit mr-auto" key={`error-${Date.now()}`}>
             <div className="message system-message error-message">
-              处理响应时出错: 我理解您想创建一个训练打卡记录。请尝试更明确地描述，例如"帮我创建一个30天健身打卡记录"或"开始一个新的训练打卡计划"。
+              处理响应时出错: 我理解您想创建一个训练打卡记录。请尝试更明确地描述，例如&quot;帮我创建一个30天健身打卡记录&quot;或&quot;开始一个新的训练打卡计划&quot;。
             </div>
           </div>
         ]);

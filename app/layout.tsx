@@ -5,7 +5,14 @@ import { EndpointsContext } from "./agent";
 import { ReactNode } from "react";
 import Script from "next/script";
 import { FloatingComponentProvider } from "./shared";
-import { FloatingComponentContainer } from "@/components/prebuilt/FloatingComponentContainer";
+import { FloatingComponentContainer } from "../components/prebuilt/FloatingComponentContainer";
+import { Nunito } from 'next/font/google';
+
+const nunito = Nunito({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '600', '700'],
+});
 
 export const metadata: Metadata = {
   title: "AI call of UI",
@@ -14,11 +21,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout(props: { children: ReactNode }) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" className={nunito.className}>
       <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
       </head>
       <body>
         <div id="particles-js"></div>
