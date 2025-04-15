@@ -308,7 +308,11 @@ textarea.chat-input::-webkit-scrollbar-thumb:hover {
 }
 
 :global(.chat-input:focus) {
-  @apply bg-white/15 border-white/50 shadow-white/30 text-white;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: none !important;
+  color: white !important;
+  outline: none !important;
 }
 
 :global(.chat-input::placeholder) {
@@ -337,8 +341,9 @@ textarea.chat-input::-webkit-scrollbar-thumb:hover {
 :global(.chat-input:focus) {
   background-color: rgba(255, 255, 255, 0.15) !important;
   border-color: rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3) !important;
+  box-shadow: none !important;
   color: white !important;
+  outline: none !important;
 }
 
 :global(.chat-input::placeholder) {
@@ -562,12 +567,22 @@ textarea.chat-input::-webkit-scrollbar-thumb:hover {
 .input-btn-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   border-radius: 1.5rem;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   overflow: hidden;
+  min-height: 60px;
+  padding: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.input-btn-container:focus-within {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+  outline: none;
 }
 
 /* 操作按钮组 */
@@ -582,7 +597,19 @@ textarea.chat-input::-webkit-scrollbar-thumb:hover {
 .chat-input {
   padding-left: 1.25rem !important;
   margin: 0 !important;
-  border-radius: 0 !important;
+  border-radius: 1rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  outline: none !important; /* 去掉焦点边框 */
+}
+
+/* 去除蓝色焦点边框 */
+textarea:focus, 
+input:focus, 
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* 生成内容缩略图样式 */

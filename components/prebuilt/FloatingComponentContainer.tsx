@@ -68,9 +68,9 @@ export function FloatingComponentContainer() {
         aria-describedby="dialog-description"
       >
         <DialogHeader className="border-b border-indigo-100 pb-3 flex-shrink-0">
-          <DialogTitle className="text-xl font-bold text-indigo-700">AI健身助手</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-indigo-700">AI-Call-Of-UI</DialogTitle>
           <DialogDescription id="dialog-description" className="sr-only">
-            AI健身助手详细内容展示窗口，显示生成的健身相关内容
+            AI-Call-Of-UI详细内容展示窗口，显示生成的数字界面内容
           </DialogDescription>
         </DialogHeader>
         

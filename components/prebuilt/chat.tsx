@@ -73,7 +73,7 @@ export default function Chat() {
       const welcomeMessage = (
         <div className="flex flex-col gap-1 w-full max-w-fit mr-auto" key="welcome">
           <div className="message">
-            欢迎使用AI健身助手！请告诉我您的健身需求，我将为您提供个性化的建议和计划。
+            欢迎使用AI-Call-Of-UI！请告诉我您的页面生成需求，我将为您提供个性化的数字界面。
           </div>
         </div>
       );
@@ -426,7 +426,7 @@ export default function Chat() {
           {/* 将textarea也添加自定义滚动条样式 */}
           <textarea
             className="form-control chat-input resize-none custom-scrollbar flex-grow"
-            placeholder="告诉我您的健身需求，例如：'我想开始增肌训练'"
+            placeholder="告诉我您的页面需求，例如：'帮我记录一次晨跑'"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             rows={1}
@@ -437,7 +437,12 @@ export default function Chat() {
               scrollbarWidth: 'thin',
               scrollbarColor: 'rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05)',
               border: 'none',
-              background: 'transparent'
+              background: 'transparent',
+              display: 'flex',
+              alignItems: 'center',
+              paddingTop: '12px',
+              paddingBottom: '12px',
+              lineHeight: '1.5'
             }}
             onInput={(e) => {
               // 自动调整高度
@@ -454,34 +459,15 @@ export default function Chat() {
                 }
               }
             }}
+            onFocus={(e) => {
+              e.target.style.outline = 'none';
+            }}
+            onBlur={(e) => {
+              e.target.style.outline = 'none';
+            }}
           />
           
           <div className="d-flex align-items-center action-buttons">
-            <Input
-              className="d-none"
-              id="image"
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                if (e.target.files && e.target.files.length > 0) {
-                  setSelectedFile(e.target.files[0]);
-                }
-              }}
-            />
-            <label htmlFor="image" className="btn ms-2" style={{
-              background: "rgba(255, 255, 255, 0.15)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-              borderRadius: "50%",
-              width: "40px",
-              height: "40px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              cursor: "pointer"
-            }}>
-              <i className="fas fa-image text-white"></i>
-            </label>
-            
             <div className="ms-2">
               <VoiceRecorder onTextChange={setInput} />
             </div>
